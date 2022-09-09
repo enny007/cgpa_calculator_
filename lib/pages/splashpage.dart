@@ -1,4 +1,4 @@
-import 'package:cgpa_calculator_/pages/menupage.dart';
+import 'package:cgpa_calculator_/routes/routes.dart';
 import 'package:flutter/Material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,12 +9,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 10), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MenuPage(),
-        ),
-      );
+      Navigator.pushNamed(context, RouteManager.loginPage);
     });
     return Scaffold(
       backgroundColor: Utils.primaryColor,
