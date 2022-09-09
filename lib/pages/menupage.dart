@@ -17,7 +17,7 @@ class MenuPage extends StatelessWidget {
             child: Text(
               'CGPA Calculator',
               style: GoogleFonts.mulish(
-                color: Colors.white,
+                color: Utils.accentColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
               ),
@@ -30,10 +30,10 @@ class MenuPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MenuPageIcons(
-                icon: const Icon(
+                icon: Icon(
                   Icons.calculate,
                   size: 50,
-                  color: Colors.white,
+                  color: Utils.accentColor,
                 ),
                 onPressed: () {},
                 label: 'Calculate',
@@ -42,10 +42,10 @@ class MenuPage extends StatelessWidget {
                 width: 10,
               ),
               MenuPageIcons(
-                icon: const Icon(
+                icon: Icon(
                   Icons.settings,
                   size: 50,
-                  color: Colors.white,
+                  color: Utils.accentColor,
                 ),
                 onPressed: () {},
                 label: 'Settings',
@@ -54,10 +54,10 @@ class MenuPage extends StatelessWidget {
                 width: 10,
               ),
               MenuPageIcons(
-                icon: const Icon(
+                icon: Icon(
                   Icons.info_outline,
                   size: 50,
-                  color: Colors.white,
+                  color: Utils.accentColor,
                 ),
                 onPressed: () {},
                 label: 'About',
