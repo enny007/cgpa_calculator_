@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../components/widgets/app_textfield.dart';
 import '../components/widgets/dialogs.dart';
 import '../routes/routes.dart';
+import '../services/course_service.dart';
 import '../services/user_service.dart';
 
 class Login extends StatefulWidget {
@@ -83,9 +84,9 @@ class _LoginState extends State<Login> {
                           if (!mounted) return;
                           String username =
                               context.read<UserService>().currentUser.username;
-                          // context.read<CourseService>().getCgpa(code);
+                          context.read<CourseService>().getCgpa(username);
                           Navigator.of(context)
-                              .pushNamed(RouteManager.menuPage);
+                              .pushNamed(RouteManager.cgpaPage);
                           usernameController.text = '';
                         }
                       }

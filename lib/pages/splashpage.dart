@@ -9,7 +9,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 10), () {
-      Navigator.pushNamed(context, RouteManager.loginPage);
+      Navigator.pushNamed(context, RouteManager.menuPage);
     });
     return Scaffold(
       backgroundColor: Utils.primaryColor,

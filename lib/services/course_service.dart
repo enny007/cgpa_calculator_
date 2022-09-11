@@ -26,9 +26,9 @@ class CourseService with ChangeNotifier {
     }
   }
 
-  Future<String> getCgpa(String code) async {
+  Future<String> getCgpa(String username) async {
     try {
-      _courses = await CgpaDatabase.instance.getAllCgpa(code);
+      _courses = await CgpaDatabase.instance.getAllCgpa(username);
       notifyListeners();
     } catch (e) {
       return e.toString();
@@ -42,7 +42,7 @@ class CourseService with ChangeNotifier {
     } catch (e) {
       return e.toString();
     }
-    String result = await getCgpa(course.code);
+    String result = await getCgpa(course.username!);
     return result;
   }
 
@@ -52,7 +52,12 @@ class CourseService with ChangeNotifier {
     } catch (e) {
       return e.toString();
     }
-    String result = await getCgpa(course.code);
+    String result = await getCgpa(course.username!);
     return result;
+  }
+
+  void deleteAll() {
+    _courses.clear();
+    notifyListeners();
   }
 }

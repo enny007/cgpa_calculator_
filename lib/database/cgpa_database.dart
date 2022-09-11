@@ -19,11 +19,17 @@ class CgpaDatabase {
     )''');
 
     await db.execute(''' CREATE TABLE $cgpaTable(
+      ${CourseFields.username} $textType,
       ${CourseFields.unit} $integerType,
       ${CourseFields.grade} $textType,
       ${CourseFields.title} $textType,
-      ${CourseFields.code} $textType
+      ${CourseFields.code} $textType,
+       FOREIGN KEY (${CourseFields.username}) REFERENCES $userTable (${UserFields.username})
     )''');
+  }
+
+  Future _onConfigure(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
   }
 
   Future<Database> _initDb(String fileName) async {
@@ -33,6 +39,7 @@ class CgpaDatabase {
     return await openDatabase(
       path,
       onCreate: _createDb,
+      onConfigure: _onConfigure,
       version: 1,
     );
   }
@@ -41,7 +48,7 @@ class CgpaDatabase {
     if (_database != null) {
       return _database;
     } else {
-      _database = await _initDb('cgpa.db');
+      _database = await _initDb('result.db');
       return _database;
     }
   }
@@ -122,11 +129,15 @@ class CgpaDatabase {
     return course;
   }
 
-  Future<List<Course>> getAllCgpa(String code) async {
+  Future<List<Course>> getAllCgpa(String username) async {
     final db = await instance.database;
     final result = await db!.query(
       cgpaTable,
       orderBy: '${CourseFields.allFields} = DESC',
+      where: '${CourseFields.username} = ?',
+      whereArgs: [
+        username,
+      ],
     );
     return result.map((e) => Course.fromJson(e)).toList();
   }
@@ -135,9 +146,10 @@ class CgpaDatabase {
     final db = await instance.database;
     return db!.delete(
       cgpaTable,
-      where: '${CourseFields.code} = ?',
+      where: '${CourseFields.code} = ? AND ${CourseFields.username} = ?',
       whereArgs: [
         course.code,
+        course.username,
       ],
     );
   }
