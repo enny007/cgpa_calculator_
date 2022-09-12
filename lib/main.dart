@@ -1,6 +1,7 @@
-import 'package:cgpa_calculator_/routes/routes.dart';
+import 'package:cgpa_calculator_/pages/splashpage.dart';
+
 import 'package:cgpa_calculator_/services/course_service.dart';
-import 'package:cgpa_calculator_/services/user_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +16,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => UserService(),
-        ),
-        ChangeNotifierProvider(
           create: (context) => CourseService(),
         ),
       ],
@@ -25,8 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(primarySwatch: Colors.blue),
         debugShowCheckedModeBanner: false,
-        initialRoute: RouteManager.splashPage,
-        onGenerateRoute: RouteManager.generateRoute,
+        home: const SplashPage(),
       ),
     );
   }

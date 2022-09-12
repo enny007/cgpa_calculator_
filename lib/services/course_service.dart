@@ -1,15 +1,18 @@
-import 'package:cgpa_calculator_/database/cgpa_database.dart';
+import 'dart:developer';
+
 import 'package:cgpa_calculator_/models/course_model.dart';
 import 'package:flutter/material.dart';
 
 class CourseService with ChangeNotifier {
-  List<Course> _courses = [];
+  final List<Course> _courses = [];
+
+  int _deletedIndex = 0;
+  Course _deletedCourse = Course(code: '', unit: 0, grade: '');
 
   List<Course> get courseList {
     return [..._courses];
   }
 
-  final int _deletedIndex = 0;
   //To calculate the total cgpa, we use the fold property to ascertain the state of the unit and grade
   double calcCgpa() {
     if (_courses.isNotEmpty) {
@@ -26,34 +29,54 @@ class CourseService with ChangeNotifier {
     }
   }
 
-  Future<String> getCgpa(String username) async {
+  void addCourse(Course course) {
     try {
-      _courses = await CgpaDatabase.instance.getAllCgpa(username);
-      notifyListeners();
+      if (_courses.any((element) => element.code == course.code)) {
+        _courses[_courses
+            .indexWhere((element) => element.code == course.code)] = course;
+      } else {
+        _courses.add(course);
+      }
     } catch (e) {
-      return e.toString();
+      log('There was an error adding to the courseList');
     }
-    return 'Ok';
+    notifyListeners();
   }
 
-  Future<String> deleteCgpa(Course course) async {
+  void deleteCourse(Course course) {
     try {
-      await CgpaDatabase.instance.deleteCgpa(course);
+      _deletedIndex =
+          _courses.indexWhere((element) => element.code == course.code);
+      _deletedCourse = _courses[_deletedIndex];
+      _courses.removeAt(_deletedIndex);
     } catch (e) {
-      return e.toString();
+      log('There was an error deleting this course');
     }
-    String result = await getCgpa(course.username!);
-    return result;
+    notifyListeners();
   }
 
-  Future<String> createCgpa(Course course) async {
+  void editCourse(
+    String code,
+    String? title,
+    int unit,
+    String grade,
+  ) {
     try {
-      await CgpaDatabase.instance.createCgpa(course);
+      _courses.map((Course course) {
+        if (course.code == code) {
+          return Course(
+            code: code,
+            title: title,
+            unit: unit,
+            grade: grade,
+          );
+        }
+        return course;
+      }).toList();
     } catch (e) {
-      return e.toString();
+      log('There was an error editing this course');
     }
-    String result = await getCgpa(course.username!);
-    return result;
+    notifyListeners();
   }
 
   void deleteAll() {

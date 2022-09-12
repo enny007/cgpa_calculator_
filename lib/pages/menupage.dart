@@ -1,4 +1,5 @@
 import 'package:cgpa_calculator_/constants.dart';
+import 'package:cgpa_calculator_/pages/cgpa_page.dart';
 import 'package:cgpa_calculator_/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -75,7 +76,10 @@ class _MenuPageState extends State<MenuPage> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, RouteManager.loginPage);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CgpaScreen()));
                       },
                       child: Container(
                         height: 45,

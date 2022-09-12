@@ -29,7 +29,10 @@ class CourseCard extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all(Colors.red),
                         foregroundColor:
                             MaterialStateProperty.all(Colors.white)),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      context.read<CourseService>().deleteCourse(course);
+                      Navigator.pop(context, true);
+                    },
                     child: const Text(
                       'Delete',
                     ),
@@ -47,9 +50,9 @@ class CourseCard extends StatelessWidget {
             });
       },
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        context.read<CourseService>().deleteCgpa(course);
-      },
+      // onDismissed: (direction) {
+
+      // },
       key: Key(course.code),
       background: Container(
         padding: const EdgeInsets.only(right: 10),

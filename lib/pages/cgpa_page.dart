@@ -59,10 +59,13 @@ class CgpaScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Gpa Calculator'),
         centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
       floatingActionButton:
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        //Multiple floating action buttons must have their own herotag
         FloatingActionButton(
+          heroTag: 'btn1',
           onPressed: () => addCourse(context),
           foregroundColor: Colors.white,
           child: const Icon(Icons.add),
@@ -72,6 +75,7 @@ class CgpaScreen extends StatelessWidget {
           width: 20,
         ),
         FloatingActionButton(
+          heroTag: 'btn2',
           onPressed: () => deleteAll(context),
           foregroundColor: Colors.white,
           backgroundColor: Colors.red,
@@ -101,10 +105,10 @@ class CgpaScreen extends StatelessWidget {
                         TextSpan(
                             text: ' ${courses.calcCgpa().toStringAsFixed(2)}')
                       ])),
-                  ElevatedButton(
-                    child: const Text('Add course'),
-                    onPressed: () => addCourse(context),
-                  )
+                  // ElevatedButton(
+                  //   child: const Text('Add course'),
+                  //   onPressed: () => addCourse(context),
+                  // )
                 ],
               ),
             ),
