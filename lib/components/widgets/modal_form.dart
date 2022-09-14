@@ -1,3 +1,4 @@
+import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/services/course_service.dart';
 
 import 'package:flutter/material.dart';
@@ -24,31 +25,25 @@ class _ModalFormState extends State<ModalForm> {
     unit: 0,
     grade: '',
   );
+  late TextEditingController codeController;
+  late TextEditingController titleController;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   course = widget.course;
-  //   if (course != null) {
-  //     _editForm = true;
-  //     _gradeDropdownValue = course!.grade;
-  //     _unitDropdownValue = course!.unit;
-  //     _newCourseInput = Course(
-  //       code: course!.code,
-  //       unit: course!.unit,
-  //       grade: course!.grade,
-  //     );
-  //   } else {}
-  // }
+  @override
+  void initState() {
+    super.initState();
+    codeController = TextEditingController();
+    titleController = TextEditingController();
+  }
 
   void saveForm() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
     }
-    if (!_addForm) {
+    if (codeController.text.isEmpty || titleController.text.isEmpty) {
       // String username = context.read<UserService>().currentUser.username;
       // Course _newCourseInput = Course(username: username, code: code, unit: unit, grade: grade)
+    } else if (!_addForm) {
       context.read<CourseService>().addCourse(_newCourseInput);
       Navigator.of(context).pop();
     } else {
@@ -82,12 +77,7 @@ class _ModalFormState extends State<ModalForm> {
           });
       if (editDecision) {
         if (!mounted) return;
-        context.read<CourseService>().editCourse(
-              widget.course!.code,
-              widget.course!.title,
-              widget.course!.unit,
-              widget.course!.grade,
-            );
+        context.read<CourseService>().editCourse(_newCourseInput);
         Navigator.of(context).pop();
       } else {
         if (!mounted) return;
@@ -106,7 +96,7 @@ class _ModalFormState extends State<ModalForm> {
           children: [
             TextFormField(
               decoration: const InputDecoration(labelText: 'Course Code'),
-              initialValue: _newCourseInput.code,
+              controller: codeController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Please input a course code';
@@ -124,7 +114,13 @@ class _ModalFormState extends State<ModalForm> {
             ),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Course Title'),
-              initialValue: _newCourseInput.title,
+              controller: titleController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please input a course title';
+                }
+                return null;
+              },
               onSaved: (value) {
                 if (value != null && value.isNotEmpty) {
                   _newCourseInput = Course(
@@ -241,11 +237,16 @@ class _ModalFormState extends State<ModalForm> {
             const SizedBox(
               height: 30,
             ),
-            ElevatedButton(
+            ElevatedButton.icon(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Utils.primaryColor),
+              ),
+              icon: Icon(widget.course == null ? Icons.save : Icons.edit),
+              label: Text(widget.course == null ? 'Submit' : 'Edit'),
               onPressed: () {
                 saveForm();
               },
-              child: Text(widget.course == null ? 'Submit' : 'Edit'),
             ),
           ],
         ),

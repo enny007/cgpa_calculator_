@@ -1,3 +1,4 @@
+import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/services/course_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -56,10 +57,64 @@ class CgpaScreen extends StatelessWidget {
     final courses = context.watch<CourseService>();
     final courseList = courses.courseList;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Gpa Calculator'),
+        title: Text(
+          'Gpa Calculator',
+          style: TextStyle(
+            color: Utils.primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+      ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            color: Utils.primaryColor,
+                            fontSize: 20,
+                          ),
+                          children: [
+                            const TextSpan(
+                                text: 'Current CGPA :',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            TextSpan(
+                                text:
+                                    ' ${courses.calcCgpa().toStringAsFixed(2)}')
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (courseList.isNotEmpty) const Text('Courses'),
+                ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: courseList.length,
+                  itemBuilder: (context, index) {
+                    return CourseCard(courseList[index]);
+                  },
+                )
+              ],
+            ),
+          ),
+        ],
       ),
       floatingActionButton:
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -68,6 +123,7 @@ class CgpaScreen extends StatelessWidget {
           heroTag: 'btn1',
           onPressed: () => addCourse(context),
           foregroundColor: Colors.white,
+          backgroundColor: Utils.primaryColor,
           child: const Icon(Icons.add),
           // backgroundColor: Colors.amberAccent,
         ),
@@ -78,52 +134,10 @@ class CgpaScreen extends StatelessWidget {
           heroTag: 'btn2',
           onPressed: () => deleteAll(context),
           foregroundColor: Colors.white,
-          backgroundColor: Colors.red,
+          backgroundColor: Utils.primaryColor,
           child: const Icon(Icons.delete),
         ),
       ]),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  RichText(
-                      text: TextSpan(
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                          children: [
-                        const TextSpan(
-                            text: 'Current CGPA :',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            )),
-                        TextSpan(
-                            text: ' ${courses.calcCgpa().toStringAsFixed(2)}')
-                      ])),
-                  // ElevatedButton(
-                  //   child: const Text('Add course'),
-                  //   onPressed: () => addCourse(context),
-                  // )
-                ],
-              ),
-            ),
-            if (courseList.isNotEmpty) const Text('Courses'),
-            ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: courseList.length,
-              itemBuilder: (context, index) {
-                return CourseCard(courseList[index]);
-              },
-            )
-          ],
-        ),
-      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/services/course_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,8 @@ class CourseCard extends StatelessWidget {
                 actions: [
                   ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.red),
+                        backgroundColor:
+                            MaterialStateProperty.all(Utils.primaryColor),
                         foregroundColor:
                             MaterialStateProperty.all(Colors.white)),
                     onPressed: () {
@@ -40,9 +42,9 @@ class CourseCard extends StatelessWidget {
                   ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.transparent),
+                              MaterialStateProperty.all(Utils.primaryColor),
                           foregroundColor:
-                              MaterialStateProperty.all(Colors.black)),
+                              MaterialStateProperty.all(Colors.white)),
                       onPressed: () => Navigator.of(context).pop(false),
                       child: const Text('Cancel'))
                 ],
@@ -50,14 +52,11 @@ class CourseCard extends StatelessWidget {
             });
       },
       direction: DismissDirection.endToStart,
-      // onDismissed: (direction) {
-
-      // },
       key: Key(course.code),
       background: Container(
         padding: const EdgeInsets.only(right: 10),
         alignment: Alignment.centerRight,
-        color: Colors.red,
+        color: Utils.primaryColor,
         child: const Icon(
           Icons.delete,
           color: Colors.white,
@@ -66,24 +65,53 @@ class CourseCard extends StatelessWidget {
       child: GestureDetector(
         onTap: () => showModalBottomSheet(
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+            ),
+          ),
           context: context,
           builder: (context) => ModalForm(
             course: course,
           ),
         ),
         child: Card(
+          elevation: 6,
+          color: Colors.white,
           child: ListTile(
             leading: Text(
               course.code,
-              style: const TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontSize: 18,
+                color: Utils.primaryColor,
+              ),
             ),
             title: course.unit == 1
-                ? Text('${course.unit} Unit')
-                : Text('${course.unit} Units'),
-            subtitle:
-                course.title == null ? const Text('') : Text(course.title!),
-            trailing: Text('${course.grade} (${course.gpa})'),
+                ? Text(
+                    '${course.unit} Unit',
+                    style: TextStyle(
+                      color: Utils.primaryColor,
+                    ),
+                  )
+                : Text(
+                    '${course.unit} Units',
+                    style: TextStyle(
+                      color: Utils.primaryColor,
+                    ),
+                  ),
+            subtitle: course.title == null
+                ? const Text('')
+                : Text(
+                    course.title!,
+                    style: TextStyle(
+                      color: Utils.primaryColor,
+                    ),
+                  ),
+            trailing: Text(
+              '${course.grade} (${course.gpa})',
+              style: TextStyle(
+                color: Utils.primaryColor,
+              ),
+            ),
           ),
         ),
       ),
