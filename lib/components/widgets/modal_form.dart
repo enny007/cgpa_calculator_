@@ -44,7 +44,7 @@ class _ModalFormState extends State<ModalForm> {
       // String username = context.read<UserService>().currentUser.username;
       // Course _newCourseInput = Course(username: username, code: code, unit: unit, grade: grade)
     } else if (!_addForm) {
-      context.read<CourseService>().addCourse(_newCourseInput);
+      // context.read<CourseService>().addCourse(_newCourseInput);
       Navigator.of(context).pop();
     } else {
       // Navigator.of(context).pop();
@@ -77,7 +77,12 @@ class _ModalFormState extends State<ModalForm> {
           });
       if (editDecision) {
         if (!mounted) return;
-        context.read<CourseService>().editCourse(_newCourseInput);
+        context.read<CourseService>().editCourse(
+              widget.course!.code,
+              widget.course!.title!,
+              widget.course!.unit,
+              widget.course!.grade,
+            );
         Navigator.of(context).pop();
       } else {
         if (!mounted) return;

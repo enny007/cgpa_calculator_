@@ -55,16 +55,20 @@ class CourseService with ChangeNotifier {
     notifyListeners();
   }
 
-  void editCourse(Course course) {
+  void editCourse(
+    String code,
+    String? title,
+    int unit,
+    String grade,
+  ) {
     try {
-      _courses.map((course) {
-        // ignore: unrelated_type_equality_checks
-        if (course.code == course) {
+      _courses.map((Course course) {
+        if (course.code == code) {
           return Course(
-            code: course.code,
-            title: course.title,
-            unit: course.unit,
-            grade: course.grade,
+            code: code,
+            title: title,
+            unit: unit,
+            grade: grade,
           );
         }
         return course;

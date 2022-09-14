@@ -63,17 +63,19 @@ class CourseCard extends StatelessWidget {
         ),
       ),
       child: GestureDetector(
-        onTap: () => showModalBottomSheet(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(20),
+        onTap: () {
+          showModalBottomSheet(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
             ),
-          ),
-          context: context,
-          builder: (context) => ModalForm(
-            course: course,
-          ),
-        ),
+            context: context,
+            builder: (context) => ModalForm(
+              course: course,
+            ),
+          );
+        },
         child: Card(
           elevation: 6,
           color: Colors.white,
