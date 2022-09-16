@@ -13,7 +13,7 @@ class CourseService with ChangeNotifier {
     return [..._courses];
   }
 
-  //To calculate the total cgpa, we use the fold property to ascertain the state of the unit and grade
+  //To calculate the total gpa, we use the fold property to ascertain the state of the unit and grade
   double calcCgpa() {
     if (_courses.isNotEmpty) {
       double courseUnit = _courses.fold(0, (previousValue, course) {
@@ -51,30 +51,6 @@ class CourseService with ChangeNotifier {
       _courses.removeAt(_deletedIndex);
     } catch (e) {
       log('There was an error deleting this course');
-    }
-    notifyListeners();
-  }
-
-  void editCourse(
-    String code,
-    String? title,
-    int unit,
-    String grade,
-  ) {
-    try {
-      _courses.map((Course course) {
-        if (course.code == code) {
-          return Course(
-            code: code,
-            title: title,
-            unit: unit,
-            grade: grade,
-          );
-        }
-        return course;
-      }).toList();
-    } catch (e) {
-      log('There was an error editing this course');
     }
     notifyListeners();
   }

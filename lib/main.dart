@@ -1,3 +1,4 @@
+import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/pages/splashpage.dart';
 
 import 'package:cgpa_calculator_/services/course_service.dart';
@@ -21,7 +22,13 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          inputDecorationTheme: InputDecorationTheme(
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Utils.primaryColor)),
+          ),
+        ),
         debugShowCheckedModeBanner: false,
         home: const SplashPage(),
       ),

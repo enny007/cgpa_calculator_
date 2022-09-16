@@ -15,9 +15,9 @@ class ModalForm extends StatefulWidget {
 }
 
 class _ModalFormState extends State<ModalForm> {
-  // final Course? course;
+  Course? course;
   final _formKey = GlobalKey<FormState>();
-  final bool _addForm = false;
+  bool _addForm = false;
   String _gradeDropdownValue = "A";
   int _unitDropdownValue = 1;
   var _newCourseInput = Course(
@@ -25,29 +25,30 @@ class _ModalFormState extends State<ModalForm> {
     unit: 0,
     grade: '',
   );
-  late TextEditingController codeController;
-  late TextEditingController titleController;
 
   @override
   void initState() {
     super.initState();
-    codeController = TextEditingController();
-    titleController = TextEditingController();
+    course = widget.course;
+    if (course != null) {
+      _addForm = true;
+      _gradeDropdownValue = course!.grade;
+      _unitDropdownValue = course!.unit;
+      _newCourseInput =
+          Course(code: course!.code, unit: course!.unit, grade: course!.grade);
+    } else {}
   }
 
   void saveForm() async {
     final isValid = _formKey.currentState!.validate();
-    if (isValid) {
-      _formKey.currentState!.save();
+    if (!isValid) {
+      return;
     }
-    if (codeController.text.isEmpty || titleController.text.isEmpty) {
-      // String username = context.read<UserService>().currentUser.username;
-      // Course _newCourseInput = Course(username: username, code: code, unit: unit, grade: grade)
-    } else if (!_addForm) {
-      // context.read<CourseService>().addCourse(_newCourseInput);
+    _formKey.currentState!.save();
+    if (!_addForm) {
+      context.read<CourseService>().addCourse(_newCourseInput);
       Navigator.of(context).pop();
     } else {
-      // Navigator.of(context).pop();
       bool editDecision = await showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -57,7 +58,8 @@ class _ModalFormState extends State<ModalForm> {
               actions: [
                 ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.red),
+                        backgroundColor:
+                            MaterialStateProperty.all(Utils.primaryColor),
                         foregroundColor:
                             MaterialStateProperty.all(Colors.white)),
                     onPressed: () => Navigator.of(context).pop(true),
@@ -67,22 +69,17 @@ class _ModalFormState extends State<ModalForm> {
                 ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      foregroundColor: MaterialStateProperty.all(Colors.black)),
+                          MaterialStateProperty.all(Utils.primaryColor),
+                      foregroundColor: MaterialStateProperty.all(Colors.white)),
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('No'),
+                  child: const Text('Cancel'),
                 ),
               ],
             );
           });
       if (editDecision) {
         if (!mounted) return;
-        context.read<CourseService>().editCourse(
-              widget.course!.code,
-              widget.course!.title!,
-              widget.course!.unit,
-              widget.course!.grade,
-            );
+        context.read<CourseService>().addCourse(_newCourseInput);
         Navigator.of(context).pop();
       } else {
         if (!mounted) return;
@@ -100,8 +97,11 @@ class _ModalFormState extends State<ModalForm> {
         child: Column(
           children: [
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Course Code'),
-              controller: codeController,
+              cursorColor: Utils.primaryColor,
+              decoration: InputDecoration(
+                  labelText: 'Course Code',
+                  labelStyle: TextStyle(color: Utils.primaryColor)),
+              initialValue: _newCourseInput.code,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Please input a course code';
@@ -118,14 +118,14 @@ class _ModalFormState extends State<ModalForm> {
               },
             ),
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Course Title'),
-              controller: titleController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please input a course title';
-                }
-                return null;
-              },
+              decoration: InputDecoration(
+                labelText: 'Course Title',
+                labelStyle: TextStyle(
+                  color: Utils.primaryColor,
+                ),
+              ),
+              cursorColor: Utils.primaryColor,
+              initialValue: _newCourseInput.title,
               onSaved: (value) {
                 if (value != null && value.isNotEmpty) {
                   _newCourseInput = Course(
@@ -137,7 +137,12 @@ class _ModalFormState extends State<ModalForm> {
               },
             ),
             DropdownButtonFormField(
-              decoration: const InputDecoration(labelText: 'Credit Units'),
+              decoration: InputDecoration(
+                labelText: 'Credit Units',
+                labelStyle: TextStyle(
+                  color: Utils.primaryColor,
+                ),
+              ),
               value: _unitDropdownValue,
               items: const [
                 DropdownMenuItem<int>(
@@ -182,6 +187,10 @@ class _ModalFormState extends State<ModalForm> {
                   _unitDropdownValue = value as int;
                 });
               },
+              icon: Icon(
+                Icons.arrow_drop_down_circle_outlined,
+                color: Utils.primaryColor,
+              ),
               // icon: dropdownvolor arrow_drop_down,
               onSaved: (value) {
                 _newCourseInput = Course(
@@ -193,7 +202,12 @@ class _ModalFormState extends State<ModalForm> {
               },
             ),
             DropdownButtonFormField(
-              decoration: const InputDecoration(labelText: 'Course Grade'),
+              decoration: InputDecoration(
+                labelText: 'Course Grade',
+                labelStyle: TextStyle(
+                  color: Utils.primaryColor,
+                ),
+              ),
               value: _gradeDropdownValue,
               items: const [
                 DropdownMenuItem<String>(
@@ -226,11 +240,10 @@ class _ModalFormState extends State<ModalForm> {
                   _gradeDropdownValue = value.toString();
                 });
               },
-              // onSaved: (value) {
-              //   setState(() {
-              //     _gradeDropdownValue = value.toString();
-              //   });
-              // },
+              icon: Icon(
+                Icons.arrow_drop_down_circle_outlined,
+                color: Utils.primaryColor,
+              ),
               onSaved: (value) {
                 _newCourseInput = Course(
                     code: _newCourseInput.code,
@@ -247,8 +260,12 @@ class _ModalFormState extends State<ModalForm> {
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Utils.primaryColor),
               ),
-              icon: Icon(widget.course == null ? Icons.save : Icons.edit),
-              label: Text(widget.course == null ? 'Submit' : 'Edit'),
+              icon: Icon(
+                course == null ? Icons.save : Icons.edit,
+              ),
+              label: Text(
+                course == null ? 'Submit' : 'Edit',
+              ),
               onPressed: () {
                 saveForm();
               },

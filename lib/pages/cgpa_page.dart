@@ -29,7 +29,8 @@ class CgpaScreen extends StatelessWidget {
             actions: [
               ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                      backgroundColor:
+                          MaterialStateProperty.all(Utils.primaryColor),
                       foregroundColor: MaterialStateProperty.all(Colors.white)),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -41,8 +42,8 @@ class CgpaScreen extends StatelessWidget {
               ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      foregroundColor: MaterialStateProperty.all(Colors.black)),
+                          MaterialStateProperty.all(Utils.primaryColor),
+                      foregroundColor: MaterialStateProperty.all(Colors.white)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
