@@ -96,7 +96,7 @@ class CgpaScreen extends StatelessWidget {
                                 )),
                             TextSpan(
                                 text:
-                                    ' ${courses.calcCgpa().toStringAsFixed(2)}')
+                                    ' ${courses.calcgpa().toStringAsFixed(2)}')
                           ],
                         ),
                       ),

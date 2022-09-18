@@ -6,7 +6,7 @@ import '../pages/menupage.dart';
 
 class RouteManager {
   static const String menuPage = '/menuPage';
-  static const String splashPage = '/splashPage';
+  static const String splashPage = '/';
   static const String cgpaPage = '/cgpaPage';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {

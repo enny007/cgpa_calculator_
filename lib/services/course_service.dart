@@ -14,7 +14,7 @@ class CourseService with ChangeNotifier {
   }
 
   //To calculate the total gpa, we use the fold property to ascertain the state of the unit and grade
-  double calcCgpa() {
+  double calcgpa() {
     if (_courses.isNotEmpty) {
       double courseUnit = _courses.fold(0, (previousValue, course) {
         return previousValue + course.unit;
