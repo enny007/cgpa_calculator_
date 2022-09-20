@@ -103,13 +103,13 @@ class CgpaScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (courseList.isNotEmpty) const Text('Courses'),
+                courseList.isEmpty ? const SizedBox() : const Text('Courses'),
                 ListView.builder(
                   shrinkWrap: true,
                   primary: false,
                   itemCount: courseList.length,
                   itemBuilder: (context, index) {
-                    return CourseCard(courseList[index]);
+                    return CourseCard(course: courseList[index]);
                   },
                 )
               ],

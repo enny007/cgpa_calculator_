@@ -240,7 +240,7 @@ class _ModalFormState extends State<ModalForm> {
                   _gradeDropdownValue = value.toString();
                 });
               },
-              icon: Icon(
+               icon: Icon(
                 Icons.arrow_drop_down_circle_outlined,
                 color: Utils.primaryColor,
               ),

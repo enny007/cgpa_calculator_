@@ -7,9 +7,9 @@ import '../../models/course_model.dart';
 import 'modal_form.dart';
 
 class CourseCard extends StatelessWidget {
-  final Course course;
-  const CourseCard(
-    this.course, {
+  final Course? course;
+  const CourseCard({
+    this.course,
     Key? key,
   }) : super(key: key);
 
@@ -21,7 +21,7 @@ class CourseCard extends StatelessWidget {
             context: context,
             builder: (BuildContext buider) {
               return AlertDialog(
-                title: Text("Delete ${course.code}"),
+                title: Text("Delete ${course!.code}"),
                 content:
                     const Text('Are you sure you want to delete this course?'),
                 actions: [
@@ -32,7 +32,7 @@ class CourseCard extends StatelessWidget {
                         foregroundColor:
                             MaterialStateProperty.all(Colors.white)),
                     onPressed: () {
-                      context.read<CourseService>().deleteCourse(course);
+                      context.read<CourseService>().deleteCourse(course!);
                       Navigator.pop(context, true);
                     },
                     child: const Text(
@@ -52,7 +52,7 @@ class CourseCard extends StatelessWidget {
             });
       },
       direction: DismissDirection.endToStart,
-      key: Key(course.code),
+      key: Key(course!.code),
       background: Container(
         padding: const EdgeInsets.only(right: 10),
         alignment: Alignment.centerRight,
@@ -81,35 +81,35 @@ class CourseCard extends StatelessWidget {
           color: Colors.white,
           child: ListTile(
             leading: Text(
-              course.code,
+              course!.code,
               style: TextStyle(
                 fontSize: 18,
                 color: Utils.primaryColor,
               ),
             ),
-            title: course.unit == 1
+            title: course!.unit == 1
                 ? Text(
-                    '${course.unit} Unit',
+                    '${course!.unit} Unit',
                     style: TextStyle(
                       color: Utils.primaryColor,
                     ),
                   )
                 : Text(
-                    '${course.unit} Units',
+                    '${course!.unit} Units',
                     style: TextStyle(
                       color: Utils.primaryColor,
                     ),
                   ),
-            subtitle: course.title == null
+            subtitle: course!.title == null
                 ? const Text('')
                 : Text(
-                    course.title!,
+                    course!.title!,
                     style: TextStyle(
                       color: Utils.primaryColor,
                     ),
                   ),
             trailing: Text(
-              '${course.grade} (${course.gpa})',
+              '${course!.grade} (${course!.gpa})',
               style: TextStyle(
                 color: Utils.primaryColor,
               ),
