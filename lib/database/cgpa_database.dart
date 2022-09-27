@@ -1,7 +1,8 @@
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
 import 'package:cgpa_calculator_/models/course_model.dart';
 import 'package:cgpa_calculator_/models/user_model.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
 class CgpaDatabase {
   static final CgpaDatabase instance = CgpaDatabase._init();
@@ -12,13 +13,14 @@ class CgpaDatabase {
     const userUserNameType = 'TEXT PRIMARY KEY NOT NULL';
     const textType = 'TEXT NOT NULL';
     const integerType = 'INTEGER NOT NULL';
+    Batch batch = db.batch();
 
-    await db.execute(''' CREATE TABLE $userTable(
+    batch.execute(''' CREATE TABLE $userTable(
       ${UserFields.username} $userUserNameType,
       ${UserFields.name} $textType
     )''');
 
-    await db.execute(''' CREATE TABLE $cgpaTable(
+    batch.execute(''' CREATE TABLE $cgpaTable(
       ${CourseFields.username} $textType,
       ${CourseFields.unit} $integerType,
       ${CourseFields.grade} $textType,
@@ -28,6 +30,8 @@ class CgpaDatabase {
       ${CourseFields.semester} $textType,
        FOREIGN KEY (${CourseFields.username}) REFERENCES $userTable (${UserFields.username})
     )''');
+
+    await batch.commit();
   }
 
   Future _onConfigure(Database db) async {
@@ -42,7 +46,7 @@ class CgpaDatabase {
       path,
       onCreate: _createDb,
       onConfigure: _onConfigure,
-      version: 1,
+      version: 2,
     );
   }
 
@@ -50,7 +54,7 @@ class CgpaDatabase {
     if (_database != null) {
       return _database;
     } else {
-      _database = await _initDb('result.db');
+      _database = await _initDb('cgpa.db');
       return _database;
     }
   }
@@ -131,31 +135,39 @@ class CgpaDatabase {
     return course;
   }
 
-  // Future<List<Course>> getAllCgpa(String username) async {
-  //   final db = await instance.database;
-  //   final result = await db!.query(
-  //     cgpaTable,
-  //     orderBy: '${CourseFields.allFields} = DESC',
-  //     where: '${CourseFields.username} = ?',
-  //     whereArgs: [
-  //       username,
-  //     ],
-  //   );
-  //   return result.map((e) => Course.fromJson(e)).toList();
-  // }
+  Future<List<Course>> getAllCgpa(String username) async {
+    final db = await instance.database;
+    final result = await db!.query(cgpaTable,
+        orderBy: '${CourseFields.code} DESC',
+        where: '${CourseFields.username} = ?',
+        whereArgs: [
+          username,
+        ]);
+    return result.map((e) => Course.fromJson(e)).toList();
+  }
 
-  // Future<int> deleteCgpa(Course course) async {
+  Future<int> deleteCgpa(Course course) async {
+    final db = await instance.database;
+    return db!.delete(
+      cgpaTable,
+      where: '${CourseFields.code} = ? AND ${CourseFields.username} = ?',
+      whereArgs: [
+        course.code,
+        course.username,
+      ],
+    );
+  }
+
+  // Future<Course> getGpa(String username) async {
   //   final db = await instance.database;
-  //   return db!.delete(
-  //     cgpaTable,
-  //     where: '${CourseFields.code} = ? AND ${CourseFields.username} = ?',
-  //     whereArgs: [
-  //       course.code,
-  //       course.username,
-  //     ],
-  //   );
+  //   final maps = await db!.query(cgpaTable,
+  //       columns: CourseFields.allFields,
+  //       where: '${CourseFields.username} = ?',
+  //       whereArgs: [username]);
+  //   if (maps.isNotEmpty) {
+  //     return Course.fromJson(maps.first);
+  //   } else {
+  //     throw FormatException('$username not found');
+  //   }
   // }
 }
-
-
-

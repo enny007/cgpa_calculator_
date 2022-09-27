@@ -7,7 +7,6 @@ import '../components/widgets/dialogs.dart';
 import '../models/user_model.dart';
 import '../services/user_service.dart';
 
-
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
@@ -39,7 +38,7 @@ class _RegisterState extends State<Register> {
       body: Stack(
         children: [
           Container(
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -110,7 +109,7 @@ class _RegisterState extends State<Register> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.purple,
+                              Utils.accentColor,
                             ),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
@@ -152,8 +151,8 @@ class _RegisterState extends State<Register> {
             ),
           ),
           Positioned(
-            left: 20,
-            top: 30,
+            left: 10,
+            top: 40,
             child: IconButton(
               onPressed: () {
                 Navigator.pop(context);

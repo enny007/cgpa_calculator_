@@ -20,7 +20,7 @@ class CourseFields {
 }
 
 class Course {
-  String? username;
+  String username;
   String code;
   String? title;
   int unit;
@@ -28,13 +28,13 @@ class Course {
   String? semester;
   String? level;
   Course({
-    this.username,
+    required this.username,
     required this.code,
     this.title,
     required this.unit,
     required this.grade,
-    this.level,
-    this.semester,
+    this.level = '100 Level',
+    this.semester = 'First',
   });
 
   final Map<String, int> gpaMap = {

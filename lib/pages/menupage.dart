@@ -77,7 +77,7 @@ class _MenuPageState extends State<MenuPage> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          RouteManager.cgpaPage,
+                          RouteManager.loginPage,
                         );
                       },
                       child: Container(

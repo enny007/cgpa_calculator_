@@ -1,13 +1,12 @@
-import 'dart:developer';
-
+import 'package:cgpa_calculator_/database/cgpa_database.dart';
 import 'package:cgpa_calculator_/models/course_model.dart';
 import 'package:flutter/material.dart';
 
 class CourseService with ChangeNotifier {
-  final List<Course> _courses = [];
+  List<Course> _courses = [];
 
-  int _deletedIndex = 0;
-  Course _deletedCourse = Course(code: '', unit: 0, grade: '');
+  final int _deletedIndex = 0;
+  // final Course _deletedCourse = Course(code: '', unit: 0, grade: '');
 
   List<Course> get courseList {
     return [..._courses];
@@ -29,31 +28,59 @@ class CourseService with ChangeNotifier {
     }
   }
 
-  void addCourse(Course course) {
+  // void addCourse(Course course) {
+  //   try {
+  //     if (_courses.any((element) => element.code == course.code)) {
+  //       _courses[_courses
+  //           .indexWhere((element) => element.code == course.code)] = course;
+  //     } else {
+  //       _courses.add(course);
+  //     }
+  //   } catch (e) {
+  //     log('There was an error adding to the courseList');
+  //   }
+  //   notifyListeners();
+  // }
+  Future<String> getGpa(String username) async {
     try {
-      if (_courses.any((element) => element.code == course.code)) {
-        _courses[_courses
-            .indexWhere((element) => element.code == course.code)] = course;
-      } else {
-        _courses.add(course);
-      }
+      _courses = await CgpaDatabase.instance.getAllCgpa(username);
+      notifyListeners();
     } catch (e) {
-      log('There was an error adding to the courseList');
+      return e.toString();
     }
-    notifyListeners();
+    return 'Ok';
   }
 
-  void deleteCourse(Course course) {
+  Future<String> addCourse(Course course) async {
     try {
-      _deletedIndex =
-          _courses.indexWhere((element) => element.code == course.code);
-      _deletedCourse = _courses[_deletedIndex];
-      _courses.removeAt(_deletedIndex);
+      await CgpaDatabase.instance.createCgpa(course);
     } catch (e) {
-      log('There was an error deleting this course');
+      return e.toString();
     }
-    notifyListeners();
+    String result = await getGpa(course.username);
+    return result;
   }
+
+  Future<String> deleteCourse(Course course) async {
+    try {
+      await CgpaDatabase.instance.deleteCgpa(course);
+    } catch (e) {
+      return e.toString();
+    }
+    String result = await getGpa(course.username);
+    return result;
+  }
+  // void deleteCourse(Course course) {
+  //   try {
+  //     _deletedIndex =
+  //         _courses.indexWhere((element) => element.code == course.code);
+  //     _deletedCourse = _courses[_deletedIndex];
+  //     _courses.removeAt(_deletedIndex);
+  //   } catch (e) {
+  //     log('There was an error deleting this course');
+  //   }
+  //   notifyListeners();
+  // }
 
   void deleteAll() {
     _courses.clear();

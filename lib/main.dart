@@ -3,6 +3,7 @@ import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/routes/routes.dart';
 
 import 'package:cgpa_calculator_/services/course_service.dart';
+import 'package:cgpa_calculator_/services/user_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => CourseService(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserService(),
         ),
       ],
       builder: (context, child) {

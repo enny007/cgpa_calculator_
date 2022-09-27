@@ -1,5 +1,6 @@
 import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/services/course_service.dart';
+import 'package:cgpa_calculator_/services/user_service.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,7 @@ class _ModalFormState extends State<ModalForm> {
   String _gradeDropdownValue = "A";
   int _unitDropdownValue = 1;
   var _newCourseInput = Course(
+    username: '',
     code: '',
     unit: 0,
     grade: '',
@@ -34,8 +36,11 @@ class _ModalFormState extends State<ModalForm> {
       _addForm = true;
       _gradeDropdownValue = course!.grade;
       _unitDropdownValue = course!.unit;
-      _newCourseInput =
-          Course(code: course!.code, unit: course!.unit, grade: course!.grade);
+      _newCourseInput = Course(
+          code: course!.code,
+          unit: course!.unit,
+          grade: course!.grade,
+          username: course!.username);
     } else {}
   }
 
@@ -90,6 +95,7 @@ class _ModalFormState extends State<ModalForm> {
 
   @override
   Widget build(BuildContext context) {
+    String username = context.read<UserService>().currentUser.username;
     return Container(
       padding: const EdgeInsets.all(15),
       child: Form(
@@ -112,6 +118,7 @@ class _ModalFormState extends State<ModalForm> {
               },
               onSaved: (value) {
                 _newCourseInput = Course(
+                    username: username,
                     code: value.toString(),
                     unit: _newCourseInput.unit,
                     grade: _newCourseInput.grade);
@@ -129,6 +136,7 @@ class _ModalFormState extends State<ModalForm> {
               onSaved: (value) {
                 if (value != null && value.isNotEmpty) {
                   _newCourseInput = Course(
+                      username: username,
                       code: _newCourseInput.code,
                       unit: _newCourseInput.unit,
                       grade: _newCourseInput.grade,
@@ -194,6 +202,7 @@ class _ModalFormState extends State<ModalForm> {
               // icon: dropdownvolor arrow_drop_down,
               onSaved: (value) {
                 _newCourseInput = Course(
+                  username: username,
                   code: _newCourseInput.code,
                   unit: value as int,
                   grade: _newCourseInput.grade,
@@ -240,12 +249,13 @@ class _ModalFormState extends State<ModalForm> {
                   _gradeDropdownValue = value.toString();
                 });
               },
-               icon: Icon(
+              icon: Icon(
                 Icons.arrow_drop_down_circle_outlined,
                 color: Utils.primaryColor,
               ),
               onSaved: (value) {
                 _newCourseInput = Course(
+                    username: username,
                     code: _newCourseInput.code,
                     unit: _newCourseInput.unit,
                     grade: value as String,

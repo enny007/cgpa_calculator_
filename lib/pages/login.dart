@@ -1,4 +1,5 @@
 import 'package:cgpa_calculator_/constants.dart';
+import 'package:cgpa_calculator_/services/course_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -81,9 +82,10 @@ class _LoginState extends State<Login> {
                               context, 'Username not found in database');
                         } else {
                           if (!mounted) return;
-                          // String username =
-                          //     context.read<UserService>().currentUser.username;
+                          String username =
+                              context.read<UserService>().currentUser.username;
                           // context.read<TodoService>().getTodos(username);
+                          context.read<CourseService>().getGpa(username);
                           Navigator.of(context)
                               .pushNamed(RouteManager.cgpaPage);
                           usernameController.text = '';
@@ -92,7 +94,7 @@ class _LoginState extends State<Login> {
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
-                        Colors.purple,
+                        Utils.accentColor,
                       ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
