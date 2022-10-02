@@ -33,8 +33,8 @@ class Course {
     this.title,
     required this.unit,
     required this.grade,
-    this.level = '100 Level',
-    this.semester = 'First',
+    this.level,
+    this.semester,
   });
 
   final Map<String, int> gpaMap = {

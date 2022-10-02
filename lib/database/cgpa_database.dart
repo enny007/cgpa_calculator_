@@ -138,7 +138,7 @@ class CgpaDatabase {
   Future<List<Course>> getAllCgpa(String username) async {
     final db = await instance.database;
     final result = await db!.query(cgpaTable,
-        orderBy: '${CourseFields.code} DESC',
+        orderBy: '${CourseFields.code} ASC',
         where: '${CourseFields.username} = ?',
         whereArgs: [
           username,
@@ -157,17 +157,4 @@ class CgpaDatabase {
       ],
     );
   }
-
-  // Future<Course> getGpa(String username) async {
-  //   final db = await instance.database;
-  //   final maps = await db!.query(cgpaTable,
-  //       columns: CourseFields.allFields,
-  //       where: '${CourseFields.username} = ?',
-  //       whereArgs: [username]);
-  //   if (maps.isNotEmpty) {
-  //     return Course.fromJson(maps.first);
-  //   } else {
-  //     throw FormatException('$username not found');
-  //   }
-  // }
 }

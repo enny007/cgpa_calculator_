@@ -90,7 +90,7 @@ class CgpaScreen extends StatelessWidget {
                           ),
                           children: [
                             const TextSpan(
-                                text: 'Current CGPA :',
+                                text: 'Current GPA :',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
