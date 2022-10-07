@@ -1,22 +1,21 @@
 import 'package:cgpa_calculator_/components/widgets/gpa_card.dart';
+import 'package:cgpa_calculator_/models/semester_model.dart';
 import 'package:flutter/Material.dart';
 
-import '../../models/course_model.dart';
-
 class ResultCatalog extends StatelessWidget {
-  final List<Course>? resultCatalog;
+  final List<Semester>? semesterCatalog;
   const ResultCatalog({
     super.key,
-    this.resultCatalog,
+    this.semesterCatalog,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: List.generate(resultCatalog!.length, (index) {
-        Course currentCourse = resultCatalog![index];
+      children: List.generate(semesterCatalog!.length, (index) {
+        Semester currentSemester = semesterCatalog![index];
         return GpaCard(
-          course: currentCourse,
+          semester: currentSemester,
         );
       }),
     );

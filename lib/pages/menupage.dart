@@ -35,7 +35,7 @@ class _MenuPageState extends State<MenuPage> {
             Stack(
               children: [
                 SizedBox(
-                  height: 770,
+                  height: 795,
                   width: MediaQuery.of(context).size.width,
                   child: PageView.builder(
                       itemCount: images.length,

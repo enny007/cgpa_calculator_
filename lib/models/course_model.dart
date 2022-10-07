@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 const String cgpaTable = 'cgpa';
 
 class CourseFields {
@@ -19,7 +21,7 @@ class CourseFields {
   ];
 }
 
-class Course {
+class Course extends Equatable {
   String username;
   String code;
   String? title;
@@ -70,4 +72,9 @@ class Course {
         title: json[CourseFields.title] as String?,
         unit: json[CourseFields.unit] as int,
       );
+
+  @override
+  List<Object?> get props => [
+        code,
+      ];
 }

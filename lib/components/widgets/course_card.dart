@@ -80,12 +80,30 @@ class CourseCard extends StatelessWidget {
           elevation: 6,
           color: Colors.white,
           child: ListTile(
-            leading: Text(
-              course!.code,
-              style: TextStyle(
-                fontSize: 18,
-                color: Utils.primaryColor,
-              ),
+            leading: Column(
+              children: [
+                Text(
+                  course!.code,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Utils.primaryColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  '${course!.level!} Level',
+                  style: TextStyle(color: Utils.primaryColor),
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  course!.semester!,
+                  style: TextStyle(color: Utils.primaryColor),
+                )
+              ],
             ),
             title: course!.unit == 1
                 ? Text(

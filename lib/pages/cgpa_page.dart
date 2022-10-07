@@ -91,53 +91,8 @@ class _CgpaScreenState extends State<CgpaScreen> {
           SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          style: TextStyle(
-                            color: Utils.primaryColor,
-                            fontSize: 20,
-                          ),
-                          children: [
-                            const TextSpan(
-                                text: 'Current GPA :',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                )),
-                            TextSpan(
-                                text:
-                                    ' ${courses.calcgpa().toStringAsFixed(2)}')
-                          ],
-                        ),
-                      ),
-                      // ElevatedButton.icon(
-                      //   style: ButtonStyle(
-                      //     backgroundColor: MaterialStateProperty.all<Color>(
-                      //       Utils.primaryColor,
-                      //     ),
-                      //   ),
-                      //   onPressed: () {
-                      //     // courses.addCourse(course!);
-                      //   },
-                      //   icon: const Icon(
-                      //     Icons.save_as_rounded,
-                      //     color: Colors.white,
-                      //   ),
-                      //   label: const Text(
-                      //     'Save Gpa',
-                      //     style: TextStyle(
-                      //       fontSize: 20,
-                      //       color: Colors.white,
-                      //     ),
-                      //   ),
-                      // ),
-                    ],
-                  ),
+                const SizedBox(
+                  height: 20,
                 ),
                 courseList.isEmpty
                     ? const SizedBox()
@@ -171,7 +126,6 @@ class _CgpaScreenState extends State<CgpaScreen> {
           foregroundColor: Colors.white,
           backgroundColor: Utils.primaryColor,
           child: const Icon(Icons.add),
-          // backgroundColor: Colors.amberAccent,
         ),
         const SizedBox(
           width: 20,

@@ -1,12 +1,12 @@
 import 'package:cgpa_calculator_/constants.dart';
-import 'package:cgpa_calculator_/models/course_model.dart';
+import 'package:cgpa_calculator_/models/semester_model.dart';
 import 'package:cgpa_calculator_/services/course_service.dart';
 import 'package:flutter/Material.dart';
 import 'package:provider/provider.dart';
 
 class GpaCard extends StatelessWidget {
-  final Course? course;
-  const GpaCard({super.key, this.course});
+  final Semester? semester;
+  const GpaCard({super.key, this.semester});
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +16,18 @@ class GpaCard extends StatelessWidget {
       color: Colors.white,
       child: ListTile(
         leading: Text(
-          '${course!.level!} Level',
+          '${semester!.level} Level',
           style: TextStyle(fontSize: 18, color: Utils.primaryColor),
         ),
         title: Text(
-          course!.semester!,
+          semester!.semester,
           style: TextStyle(
             fontSize: 18,
             color: Utils.primaryColor,
           ),
         ),
         trailing: Text(
-          courses.calcgpa().toStringAsFixed(2),
+          'GPA: ${courses.calcgpa(semester!.courses.toList()).toStringAsFixed(2)}',
           style: TextStyle(
             color: Utils.primaryColor,
           ),

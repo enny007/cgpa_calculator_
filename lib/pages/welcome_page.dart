@@ -13,6 +13,7 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final courses = context.watch<CourseService>();
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -62,13 +63,30 @@ class WelcomePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Your current CGPA is: ',
-                style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.white,
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                  children: [
+                    const TextSpan(
+                        text: 'Your Current CGPA is:',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 25,
+                        )),
+                    TextSpan(
+                        text: ' ${courses.calcgpa().toStringAsFixed(2)}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ))
+                  ],
                 ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               Center(
                 child:
@@ -102,7 +120,7 @@ class WelcomePage extends StatelessWidget {
                     );
                   }
                   return ResultCatalog(
-                    resultCatalog: value.courseList,
+                    semesterCatalog: value.getSemester(),
                   );
                 }),
               ),

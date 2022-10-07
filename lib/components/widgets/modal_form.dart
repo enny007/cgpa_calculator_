@@ -1,3 +1,4 @@
+import 'package:cgpa_calculator_/components/widgets/dialogs.dart';
 import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/services/course_service.dart';
 import 'package:cgpa_calculator_/services/user_service.dart';
@@ -22,7 +23,7 @@ class _ModalFormState extends State<ModalForm> {
   String _gradeDropdownValue = "A";
   int _unitDropdownValue = 1;
   String _levelDropdownValue = "100";
-  String _semesterDropDownValue = 'First Semester';
+  String _semesterDropDownValue = '1st Semester';
   var _newCourseInput = Course(
     username: '',
     code: '',
@@ -60,8 +61,12 @@ class _ModalFormState extends State<ModalForm> {
     }
     _formKey.currentState!.save();
     if (!_addForm) {
-      context.read<CourseService>().addCourse(_newCourseInput);
-      Navigator.of(context).pop();
+      if (context.read<CourseService>().courseList.contains(_newCourseInput)) {
+        showSnackBar(context, 'Duplicate entry detected, check your CourseList');
+      } else {
+        context.read<CourseService>().addCourse(_newCourseInput);
+        Navigator.of(context).pop();
+      }
     } else {
       bool editDecision = await showDialog(
           context: context,
@@ -331,11 +336,11 @@ class _ModalFormState extends State<ModalForm> {
                 value: _semesterDropDownValue,
                 items: const [
                   DropdownMenuItem<String>(
-                    value: 'First Semester',
+                    value: '1st Semester',
                     child: Text('First Semester'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'Second Semester',
+                    value: '2nd Semester',
                     child: Text('Second Semester'),
                   ),
                 ],
