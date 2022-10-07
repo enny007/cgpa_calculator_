@@ -1,3 +1,4 @@
+import 'package:cgpa_calculator_/models/semester_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -27,10 +28,17 @@ class CgpaDatabase {
       ${CourseFields.title} $textType,
       ${CourseFields.code} $textType,
       ${CourseFields.level} $textType,
-      ${CourseFields.semester} $textType,
-       FOREIGN KEY (${CourseFields.username}) REFERENCES $userTable (${UserFields.username})
+      ${CourseFields.semester} $textType
+      )
     )''');
 
+    batch.execute(''' CREATE TABLE $semesterTable(
+      ${SemesterFields.username} $textType,
+      ${SemesterFields.level} $textType,
+      ${SemesterFields.courses} $textType,
+       FOREIGN KEY (${CourseFields.username}) REFERENCES $userTable (${UserFields.username}) REFERENCES $semesterTable (${SemesterFields.username})
+    )
+''');
     await batch.commit();
   }
 
@@ -137,14 +145,27 @@ class CgpaDatabase {
 
   Future<List<Course>> getAllCgpa(String username) async {
     final db = await instance.database;
-    final result = await db!.query(cgpaTable,
-        orderBy: '${CourseFields.code} ASC',
-        where: '${CourseFields.username} = ?',
-        whereArgs: [
-          username,
-        ]);
+    final result = await db!.query(
+      cgpaTable,
+      orderBy: '${CourseFields.code} ASC',
+      where: '${CourseFields.username} = ?',
+      whereArgs: [
+        username,
+      ],
+    );
     return result.map((e) => Course.fromJson(e)).toList();
   }
+
+  // Future<List<Course>> getAllCgpa(String username) async {
+  //   final db = await instance.database;
+  //   final result = await db!.query(cgpaTable,
+
+  //       where: '${CourseFields.username} = ?',
+  //       whereArgs: [
+  //         username,
+  //       ]);
+  //   return result.map((e) => Course.fromJson(e)).toList();
+  // }
 
   Future<int> deleteCgpa(Course course) async {
     final db = await instance.database;
@@ -156,5 +177,52 @@ class CgpaDatabase {
         course.username,
       ],
     );
+  }
+
+  Future<int> editCgpa(Course course) async {
+    final db = await instance.database;
+    return db!.update(
+      cgpaTable,
+      course.toJson(),
+      where: '${CourseFields.code} = ? AND ${CourseFields.username} = ?',
+      whereArgs: [
+        course.code,
+        course.username,
+      ],
+    );
+  }
+
+  //CRUD Function for semesterTable
+  Future<Semester> createSemester(Semester semester) async {
+    final db = await instance.database;
+    await db!.insert(
+      semesterTable,
+      semester.toJson(),
+    );
+    return semester;
+  }
+
+  Future<int> updateSemester(Semester semester) async {
+    final db = await instance.database;
+    return db!.update(
+      semesterTable,
+      semester.toJson(),
+      where: '${SemesterFields.courses} = ?',
+      whereArgs: [
+        semester.courses,
+      ],
+    );
+  }
+
+  Future<List<Semester>> getSemester(String username) async {
+    final db = await instance.database;
+    final result = await db!.query(
+      semesterTable,
+      where: '${SemesterFields.username} = ?',
+      whereArgs: [
+        username,
+      ],
+    );
+    return result.map((e) => Semester.fromJson(e)).toList();
   }
 }

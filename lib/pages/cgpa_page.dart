@@ -7,13 +7,22 @@ import '../components/widgets/course_card.dart';
 import '../components/widgets/modal_form.dart';
 import '../models/course_model.dart';
 
-class CgpaScreen extends StatelessWidget {
+class CgpaScreen extends StatefulWidget {
   const CgpaScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CgpaScreen> createState() => _CgpaScreenState();
+}
+
+class _CgpaScreenState extends State<CgpaScreen> {
+  List<Course>? course;
   Future<dynamic> addCourse(BuildContext context, [Course? course]) {
     return showModalBottomSheet(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
       context: context,
       builder: (context) => ModalForm(),
     );
@@ -53,6 +62,12 @@ class CgpaScreen extends StatelessWidget {
         });
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   course = context.read<CourseService>().courseList;
+  // }
+
   @override
   Widget build(BuildContext context) {
     final courses = context.watch<CourseService>();
@@ -80,7 +95,7 @@ class CgpaScreen extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       RichText(
                         text: TextSpan(
@@ -100,10 +115,40 @@ class CgpaScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      // ElevatedButton.icon(
+                      //   style: ButtonStyle(
+                      //     backgroundColor: MaterialStateProperty.all<Color>(
+                      //       Utils.primaryColor,
+                      //     ),
+                      //   ),
+                      //   onPressed: () {
+                      //     // courses.addCourse(course!);
+                      //   },
+                      //   icon: const Icon(
+                      //     Icons.save_as_rounded,
+                      //     color: Colors.white,
+                      //   ),
+                      //   label: const Text(
+                      //     'Save Gpa',
+                      //     style: TextStyle(
+                      //       fontSize: 20,
+                      //       color: Colors.white,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
-                courseList.isEmpty ? const SizedBox() : const Text('Courses'),
+                courseList.isEmpty
+                    ? const SizedBox()
+                    : Text(
+                        'Courses',
+                        style: TextStyle(
+                          color: Utils.primaryColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                 ListView.builder(
                   shrinkWrap: true,
                   primary: false,

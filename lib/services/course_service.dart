@@ -28,19 +28,13 @@ class CourseService with ChangeNotifier {
     }
   }
 
-  // void addCourse(Course course) {
-  //   try {
-  //     if (_courses.any((element) => element.code == course.code)) {
-  //       _courses[_courses
-  //           .indexWhere((element) => element.code == course.code)] = course;
-  //     } else {
-  //       _courses.add(course);
-  //     }
-  //   } catch (e) {
-  //     log('There was an error adding to the courseList');
-  //   }
-  //   notifyListeners();
-  // }
+  //gpaTotal + gpaTotal / courseUnit + courseUnit
+
+//  getCgpa(BuildContext context) {
+//     User user = context.read<UserService>().currentUser;
+
+//   }
+
   Future<String> getGpa(String username) async {
     try {
       _courses = await CgpaDatabase.instance.getAllCgpa(username);
@@ -70,17 +64,18 @@ class CourseService with ChangeNotifier {
     String result = await getGpa(course.username);
     return result;
   }
-  // void deleteCourse(Course course) {
-  //   try {
-  //     _deletedIndex =
-  //         _courses.indexWhere((element) => element.code == course.code);
-  //     _deletedCourse = _courses[_deletedIndex];
-  //     _courses.removeAt(_deletedIndex);
-  //   } catch (e) {
-  //     log('There was an error deleting this course');
-  //   }
-  //   notifyListeners();
-  // }
+
+  Future<String> editCourse(Course course) async {
+    try {
+      await CgpaDatabase.instance.editCgpa(course);
+    } catch (e) {
+      return e.toString();
+    }
+    String result = await getGpa(course.username);
+    return result;
+  }
+
+  
 
   void deleteAll() {
     _courses.clear();

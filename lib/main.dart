@@ -3,6 +3,7 @@ import 'package:cgpa_calculator_/constants.dart';
 import 'package:cgpa_calculator_/routes/routes.dart';
 
 import 'package:cgpa_calculator_/services/course_service.dart';
+import 'package:cgpa_calculator_/services/semester_service.dart';
 import 'package:cgpa_calculator_/services/user_service.dart';
 
 import 'package:flutter/material.dart';
@@ -24,10 +25,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => UserService(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => SemesterService(),
+        )
       ],
       builder: (context, child) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Cgpa Calculator',
           theme: ThemeData(
             primarySwatch: Colors.blue,
             inputDecorationTheme: InputDecorationTheme(

@@ -87,7 +87,7 @@ class _LoginState extends State<Login> {
                           // context.read<TodoService>().getTodos(username);
                           context.read<CourseService>().getGpa(username);
                           Navigator.of(context)
-                              .pushNamed(RouteManager.cgpaPage);
+                              .pushNamed(RouteManager.welcomePage);
                           usernameController.text = '';
                         }
                       }

@@ -40,6 +40,8 @@ class _ModalFormState extends State<ModalForm> {
       _addForm = true;
       _gradeDropdownValue = course!.grade;
       _unitDropdownValue = course!.unit;
+      _levelDropdownValue = course!.level!;
+      _semesterDropDownValue = course!.semester!;
       _newCourseInput = Course(
         code: course!.code,
         unit: course!.unit,
@@ -91,7 +93,7 @@ class _ModalFormState extends State<ModalForm> {
           });
       if (editDecision) {
         if (!mounted) return;
-        context.read<CourseService>().addCourse(_newCourseInput);
+        context.read<CourseService>().editCourse(_newCourseInput);
         Navigator.of(context).pop();
       } else {
         if (!mounted) return;
