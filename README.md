@@ -1,6 +1,12 @@
-# cgpa_calculator_
+# CGPA CALCULATOR
+A multiscreened UI app that is capable of calculation Gpa(grade point average) and Cgpa(Cumulative grade point average)
 
-A new Flutter project.
+![screen-gif](assets\cgpa_gif.gif)
+
+This Demo shows the following:
+- Creating a new account
+- Logging into the a previous account
+- Calculated Cgpa and Gpa on the Welcome Page
 
 ## Getting Started
 
