@@ -89,19 +89,15 @@ class CourseCard extends StatelessWidget {
                     color: Utils.primaryColor,
                   ),
                 ),
-                const SizedBox(
-                  height: 3,
-                ),
                 Text(
                   '${course!.level!} Level',
                   style: TextStyle(color: Utils.primaryColor),
                 ),
-                const SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  course!.semester!,
-                  style: TextStyle(color: Utils.primaryColor),
+                Expanded(
+                  child: Text(
+                    course!.semester!,
+                    style: TextStyle(color: Utils.primaryColor),
+                  ),
                 )
               ],
             ),

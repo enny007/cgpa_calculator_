@@ -1,4 +1,3 @@
-import 'package:cgpa_calculator_/models/semester_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -28,18 +27,9 @@ class CgpaDatabase {
       ${CourseFields.title} $textType,
       ${CourseFields.code} $textType,
       ${CourseFields.level} $textType,
-      ${CourseFields.semester} $textType
-      )
+      ${CourseFields.semester} $textType,
+       FOREIGN KEY (${CourseFields.username}) REFERENCES $userTable (${UserFields.username}) 
     )''');
-
-    batch.execute(''' CREATE TABLE $semesterTable(
-      ${SemesterFields.username} $textType,
-      ${SemesterFields.level} $textType,
-      ${SemesterFields.courses} $textType,
-      ${SemesterFields.semester} $textType
-       FOREIGN KEY (${CourseFields.username}) REFERENCES $userTable (${UserFields.username}) REFERENCES $semesterTable (${SemesterFields.username})
-    )
-''');
     await batch.commit();
   }
 
