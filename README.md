@@ -1,12 +1,14 @@
 # CGPA CALCULATOR
-A multiscreened UI app that is capable of calculation Gpa(grade point average) and Cgpa(Cumulative grade point average)
+A multiscreened UI app that is capable of calculating Gpa(grade point average) and Cgpa(Cumulative grade point average)
 
-![screen-gif](assets\cgpa_gif.gif)
+![cgpa_gif](https://user-images.githubusercontent.com/93651988/194715276-139b0d9d-a8c7-445e-aca7-ea4c4598de90.gif)
+
 
 This Demo shows the following:
 - Creating a new account
 - Logging into the a previous account
 - Calculated Cgpa and Gpa on the Welcome Page
+- Data persistence with Sqflite package and state management with Provider.
 
 ## Getting Started
 
